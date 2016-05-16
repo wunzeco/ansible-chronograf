@@ -1,0 +1,24 @@
+---
+
+- name: Download and install chronograf apt public signing key
+  apt_key:
+    url:   "{{ chronograf_signing_key_url }}"
+    state: present
+
+- name: Add chronograf apt repository definition to apt sources list
+  apt_repository: 
+    repo:         "{{ chronograf_apt_repo }}"
+    update_cache: yes
+    state:        present
+
+- name: Install chronograf
+  apt: name=chronograf state=present
+
+## - name: Create chronograf config file
+## - name: Create chronograf startup script environment file
+## - name: Create chronograf logrotate config file
+
+# Consider configs that should be saved in chronograf.d cofig dir
+
+- name: Start chronograf
+  service: name=chronograf state=started
