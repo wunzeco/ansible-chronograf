@@ -14,11 +14,23 @@
 - name: Install chronograf
   apt: name=chronograf state=present
 
-## - name: Create chronograf config file
-## - name: Create chronograf startup script environment file
-## - name: Create chronograf logrotate config file
+- name: Update chronograf config file
+  template:
+    src:   config.toml.j2
+    dest:  /opt/chronograf/config.toml
+    owner: "{{ chronograf_user }}"
+    group: "{{ chronograf_group }}"
+    mode:  0664
+  notify: Restart chronograf
 
-# Consider configs that should be saved in chronograf.d cofig dir
+- name: Update chronograf startup script envrionment variables file
+  template:
+    src:   etc.default.chronograf.j2
+    dest:  /etc/default/chronograf
+    owner: root
+    group: root
+    mode:  0664
+  notify: Restart chronograf
 
 - name: Start chronograf
-  service: name=chronograf state=started
+  service: name=chronograf enabled=yes state=started

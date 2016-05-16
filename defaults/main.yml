@@ -1,4 +1,15 @@
 ---
+chronograf_user: chronograf 
+chronograf_group: "{{ chronograf_user }}"
 
 chronograf_signing_key_url: "https://repos.influxdata.com/influxdb.key" 
 chronograf_apt_repo: "deb https://repos.influxdata.com/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable" 
+
+##############
+## Config
+chronograf_bind: "0.0.0.0:10000"
+chronograf_local_database: "/opt/chronograf/chronograf.db"
+chronograf_query_response_bytes_limit: 2500000
+chronograf_chroot: "/"
+chronograf_chdir:  "/"
+chronograf_nice:   ""
