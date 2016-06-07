@@ -1,14 +1,19 @@
 ---
-chronograf_user: chronograf 
+chronograf_user:  chronograf 
 chronograf_group: "{{ chronograf_user }}"
 
-chronograf_signing_key_url: "https://repos.influxdata.com/influxdb.key" 
-chronograf_apt_repo: "deb https://repos.influxdata.com/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable" 
+#############
+## Package
+chronograf_version: '*'                # e.g. 0.13.0 or '*' for latest
+chronograf_signing_key_url: "https://repos.influxdata.com/influxdb.key"
+chronograf_apt_repo: "deb https://repos.influxdata.com/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
+chronograf_yum_repo_baseurl: 'https://repos.influxdata.com/centos/\$releasever/\$basearch/stable'
 
 ##############
 ## Config
+chronograf_work_dir: /opt/chronograf
 chronograf_bind: "0.0.0.0:10000"
-chronograf_local_database: "/opt/chronograf/chronograf.db"
+chronograf_local_database: "{{ chronograf_work_dir }}/chronograf.db"
 chronograf_query_response_bytes_limit: 2500000
 chronograf_chroot: "/"
 chronograf_chdir:  "/"

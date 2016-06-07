@@ -1,23 +1,12 @@
 ---
 
-- name: Download and install chronograf apt public signing key
-  apt_key:
-    url:   "{{ chronograf_signing_key_url }}"
-    state: present
-
-- name: Add chronograf apt repository definition to apt sources list
-  apt_repository: 
-    repo:         "{{ chronograf_apt_repo }}"
-    update_cache: yes
-    state:        present
-
 - name: Install chronograf
-  apt: name=chronograf state=present
+  include: "install-{{ ansible_os_family|lower }}.yml"
 
 - name: Update chronograf config file
   template:
     src:   config.toml.j2
-    dest:  /opt/chronograf/config.toml
+    dest:  "{{ chronograf_work_dir }}/config.toml"
     owner: "{{ chronograf_user }}"
     group: "{{ chronograf_group }}"
     mode:  0664

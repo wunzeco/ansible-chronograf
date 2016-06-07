@@ -1,0 +1,17 @@
+---
+
+- name: Download and install chronograf apt public signing key
+  apt_key:
+    url:   "{{ chronograf_signing_key_url }}"
+    state: present
+
+- name: Add chronograf apt repository definition to apt sources list
+  apt_repository: 
+    repo:         "{{ chronograf_apt_repo }}"
+    update_cache: yes
+    state:        present
+
+- name: Install chronograf
+  apt:
+    name:  "chronograf={{ chronograf_version|default('*') }}"
+    state: present
