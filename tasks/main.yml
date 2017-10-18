@@ -3,6 +3,13 @@
 - name: Install chronograf
   include: "install-{{ ansible_os_family|lower }}.yml"
 
+- name: Ensure chronograf config dir exists
+  file:
+    path:  "{{ chronograf_work_dir }}"
+    state: directory
+    owner: "{{ chronograf_user }}"
+    group: "{{ chronograf_group }}"
+
 - name: Update chronograf config file
   template:
     src:   config.toml.j2
